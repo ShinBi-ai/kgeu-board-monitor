@@ -1,1 +1,5 @@
-# Requirements
+requests==2.32.5
+beautifulsoup4==4.13.5
+lxml==6.0.1
+discord-webhook==1.4.1
+python-dotenv==1.1.1

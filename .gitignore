@@ -1,1 +1,19 @@
-# Git ignore
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+
+# Virtual Environment
+.venv/
+venv/
+env/
+
+# Environment Variables
+.env
+
+# VS Code
+.vscode/
+
+# macOS
+.DS_Store

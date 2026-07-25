@@ -1,0 +1,5065 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/resources/static/common/css/fontawesome/all.min.css">
+  <script src="/resources/static/common/js/fontawesome/all.min.js"></script>
+  <link rel="stylesheet" href="/resources/static/common/css/tw-styles.css?v=2026.07.08.175713">
+  <link rel="stylesheet" href="/resources/static/common/css/base.css?v=2026.07.08.175713">
+  <link rel="stylesheet" href="/resources/static/branch/skin_02/css/layout.css?v=2026.07.08.175713">
+  <script src="/resources/static/common/js/jquery/jquery-3.6.1.min.js"></script>
+  <script src="/resources/static/branch/skin_02/js/layout.js?v=2026.07.08.175713" defer></script>
+  <title>전국공무원노동조합 부산지역본부 동구지부</title> 
+  <link rel="apple-touch-icon" sizes="180x180" href="/resources/static/common/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/resources/static/common/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/resources/static/common/favicon/favicon-16x16.png">
+  <link rel="manifest" href="/resources/static/common/favicon/site.webmanifest">
+  <link rel="mask-icon" href="/resources/static/common/favicon/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  
+  
+    
+<link rel="stylesheet" href="/resources/static/branch/skin_02/css/board.css?v=2">
+<link rel="stylesheet" href="/resources/static/intranet/css/popup.css">
+<script src="/resources/static/intranet/js/popup.js"></script>
+<script src="/resources/static/common/js/board_common.js?v=20240130"></script>
+<style>
+	.paging-ul li {
+		float: left;
+	}
+</style>
+<script>
+	function fnBoardGroup(bgId) {
+		$('#bgId').val(bgId);
+		$('#page').val(1);
+    $("#formPage").submit();
+	}
+	function fnSecretIdChk(wrId, wrBlindYn){
+
+		if(wrBlindYn != 'Y'){
+			location.href="/branch/bsdonggu/board/view/BRD_011/"+wrId+"?page=1"
+		}else{
+			if("" == "Y"){
+				location.href="/branch/bsdonggu/board/view/BRD_011/"+wrId+"?page=1"
+			}
+			let params = "wrId="+wrId+"&branchDb=bsdonggu&wrPassword="+$("#wrPassword").val()+"&bId=BRD_011" 
+			let tf = false;
+			if("" != ''){
+				$.ajax({
+					type: 'POST',
+					url: '/api/board/identification/id',
+          data: {
+            "wrId" : wrId,
+            "branchDb" : "bsdonggu",            
+            "bId" : "BRD_011",
+            "bAdminId" : ""
+          }, 
+					async:false,
+					success: function(result) {
+						if(result == 1){							
+							location.href="/branch/bsdonggu/board/view/BRD_011/"+wrId+"?page=1"
+							tf = true;
+						}else if(result == -1){							
+							tf = false;
+							Popup.init({layerId: "#layer_wrap1", layerBg: ".layer_bg"});
+							$("#layerWrId").val(wrId);
+						}
+					},
+					error: function() {
+						alert("네트워크에 문제가 있거나 프로그램 오류입니다.\n다시 시도해주세요.");
+					}
+				});
+				return tf;
+			}else{
+				Popup.init({layerId: "#layer_wrap1", layerBg: ".layer_bg"});
+				$("#layerWrId").val(wrId);  					
+			}
+			return false;
+		}  								
+	}
+
+	function fnSecretPwdChk(){
+
+		$.ajax({
+			type: 'POST',
+			url: '/api/board/identification/pwd',
+			data: {
+				"wrId": $("#layerWrId").val(),
+				"branchDb": "bsdonggu",
+				"wrPassword": $("#wrPassword").val(),
+				"bId": "BRD_011"
+			},
+			async:false,				
+			success: function(result) {
+				if(result == 1){
+
+				// var value = get_cookie('BRD_011_SECRET');
+        // if(value.indexOf("||") < 0){
+        //   value = + '|'+$("#layerWrId").val()+'|'
+        //   set_cookie('BRD_011_SECRET', value , 24)  
+        // }
+
+					location.href="/branch/bsdonggu/board/view/BRD_011/"+$("#layerWrId").val()+"?page=1"
+				}else{
+					alert("비밀번호가 일치하지 않습니다.");
+					return false;
+				}
+			},
+			error: function() {
+				alert("네트워크에 문제가 있거나 프로그램 오류입니다.\n다시 시도해주세요.");
+			}
+		});
+	}
+	// function set_cookie(name, value, expirehours, domain){    
+  //   var today = new Date();
+  //   today.setTime(today.getTime() + (60*60*1000*expirehours));
+  //   document.cookie = name + "=" + value + "; path=/; expires=" + today.toGMTString() + ";";
+  //   if (domain) {
+  //       document.cookie += "domain=" + domain + ";";
+  //   }
+  // }
+
+  // function get_cookie(name) {
+  //   var value = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+  //   return value? value[2] : '';
+  // }
+</script>
+</head>
+
+<body>
+	
+	
+	<div class="container" style="height: 100%">
+		<div class="left-menu">
+			
+
+<script>
+  function lmToggleLv1(idx) {
+    const arrLv1 = document.querySelectorAll("[id^='lMenuLv1_']"); 
+    arrLv1.forEach(function(el,index) {
+      if (idx != index && el.style.display != 'none') {
+        $("#lMenuLv1_"+index).slideUp(250);
+        $("#btnAngle_"+index).html("<i class='fa-solid fa-angle-down'></i>");
+        $("#lMenuLv0_"+index).parent().addClass('border-b');
+      }
+    });  
+    $("#lMenuLv1_"+idx).slideDown(250);
+    $("#btnAngle_"+idx).html("<i class='fa-solid fa-angle-up'></i>");
+    $("#lMenuLv0_"+idx).parent().removeClass('border-b');  // 밑줄제거 
+  }
+  
+  function fnLogout() {
+		if( confirm("로그아웃 하시겠습니까?") ) {
+			$.ajax({
+				type: 'POST',
+				url: '/auth/logoutProc',
+				contentType: 'application/json; charset=utf-8',
+				success: function(data) {
+					document.location.href = "/branch/bsdonggu";  // 해당 지부 메인으로 이동
+				},
+				error: function() {
+					alert('-------로그아웃 실패--------');
+				}
+			});
+		}
+	}
+
+</script>
+<section class="flex flex-col justify-center" style="padding-top:40px;">
+  
+    
+      <div class="flex justify-center">
+        <a href="/branch/bsdonggu"><img src="/resources/static/union/img/kgeu_logo.svg" style="width:250px" alt=""></a>
+      </div>
+      <div class="text-center"> <span class="font-bold text-lg">부산지역본부</span> <span class="font-bold text-lg">동구지부</span></div>
+    
+    
+    
+
+  <div class="flex justify-center" style="padding-top: 25px;">
+    
+      
+      
+        <a href="/union/login/page/branch-bsdonggu">로그인</a>
+      
+    
+    
+      
+      
+        <span class="text-gray-300">Ⅰ</span> <a href="#" onclick="window.open('/intranet/main')">인트라넷</a>
+      
+    
+  </div> 
+  <!-- 메뉴리스트 -->
+  <div class="flex justify-center" style="padding-top:25px;margin-bottom:70px;">
+    <ul class="basis-4/5 text-gray-600">
+      
+        <div class="flex justify-between cursor-pointer hover:color-base border-b border-[#e5e7eb]" onclick="lmToggleLv1('0')">
+          <li id="lMenuLv0_0" class="pl-2 pt-3 pb-1 font-bold text-lg" > <a href="#"> 지부소개 </a></li>
+          <button id="btnAngle_0" class="pt-3 pb-1"> <i class="fa-solid fa-angle-down"></i> </button>
+        </div>
+        <div id="lMenuLv1_0" data-gcd="1" class="ml-2 pl-4 py-4 mb-4 rounded-lg" style="line-height:2rem; background-color:#f5f4f9;">
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/pages/intro2"><li class="pl-3 hover:color-base hover:font-bold">창립선언문</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/pages/intro1"><li class="pl-3 hover:color-base hover:font-bold">강령</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/pages/page53646"><li class="pl-3 hover:color-base hover:font-bold">조직도</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/HIS_105"><li class="pl-3 hover:color-base hover:font-bold">연혁</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/INT_051"><li class="pl-3 hover:color-base hover:font-bold">규정/규칙</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+        </div>
+      
+        <div class="flex justify-between cursor-pointer hover:color-base border-b border-[#e5e7eb]" onclick="lmToggleLv1('1')">
+          <li id="lMenuLv0_1" class="pl-2 pt-3 pb-1 font-bold text-lg" > <a href="#"> 알림마당 </a></li>
+          <button id="btnAngle_1" class="pt-3 pb-1"> <i class="fa-solid fa-angle-down"></i> </button>
+        </div>
+        <div id="lMenuLv1_1" data-gcd="2" class="ml-2 pl-4 py-4 mb-4 rounded-lg" style="line-height:2rem; background-color:#f5f4f9;">
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/GUD_011"><li class="pl-3 hover:color-base hover:font-bold">지부공지</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/Nquick"><li class="pl-3 hover:color-base hover:font-bold">조합공지</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/Nsokbo"><li class="pl-3 hover:color-base hover:font-bold">조합소식</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/Ncenter"><li class="pl-3 hover:color-base hover:font-bold">전국본부소식</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/Nlocal"><li class="pl-3 hover:color-base hover:font-bold">전국지부소식</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/Ncomment"><li class="pl-3 hover:color-base hover:font-bold">성명/논평</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/Ndata"><li class="pl-3 hover:color-base hover:font-bold">보도자료</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/Nclipping"><li class="pl-3 hover:color-base hover:font-bold">뉴스클리핑</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/GUD_081"><li class="pl-3 hover:color-base hover:font-bold">조합원소식</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/GUD_091"><li class="pl-3 hover:color-base hover:font-bold">조합원혜택/협약사항</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/CAL_011"><li class="pl-3 hover:color-base hover:font-bold">주요일정</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+        </div>
+      
+        <div class="flex justify-between cursor-pointer hover:color-base border-b border-[#e5e7eb]" onclick="lmToggleLv1('2')">
+          <li id="lMenuLv0_2" class="pl-2 pt-3 pb-1 font-bold text-lg" > <a href="#"> 열린마당 </a></li>
+          <button id="btnAngle_2" class="pt-3 pb-1"> <i class="fa-solid fa-angle-down"></i> </button>
+        </div>
+        <div id="lMenuLv1_2" data-gcd="3" class="ml-2 pl-4 py-4 mb-4 rounded-lg" style="line-height:2rem; background-color:#f5f4f9;">
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/BRD_011"><li class="pl-3 hover:color-base hover:font-bold">자유게시판</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/BRD_051"><li class="pl-3 hover:color-base hover:font-bold">선배공무원소식</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/BRD_061 "><li class="pl-3 hover:color-base hover:font-bold">단체교섭(안) 의견수렴 </li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/BRD_021"><li class="pl-3 hover:color-base hover:font-bold">쉼터</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/poll/list"><li class="pl-3 hover:color-base hover:font-bold">설문조사</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/BRD_050"><li class="pl-3 hover:color-base hover:font-bold">선거게시판</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+        </div>
+      
+        <div class="flex justify-between cursor-pointer hover:color-base border-b border-[#e5e7eb]" onclick="lmToggleLv1('3')">
+          <li id="lMenuLv0_3" class="pl-2 pt-3 pb-1 font-bold text-lg" > <a href="#"> 자료마당 </a></li>
+          <button id="btnAngle_3" class="pt-3 pb-1"> <i class="fa-solid fa-angle-down"></i> </button>
+        </div>
+        <div id="lMenuLv1_3" data-gcd="4" class="ml-2 pl-4 py-4 mb-4 rounded-lg" style="line-height:2rem; background-color:#f5f4f9;">
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/DAT_011"><li class="pl-3 hover:color-base hover:font-bold">문서자료</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/DAT_021"><li class="pl-3 hover:color-base hover:font-bold">사진자료</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+        </div>
+      
+        <div class="flex justify-between cursor-pointer hover:color-base border-b border-[#e5e7eb]" onclick="lmToggleLv1('4')">
+          <li id="lMenuLv0_4" class="pl-2 pt-3 pb-1 font-bold text-lg" > <a href="#"> 동호회 </a></li>
+          <button id="btnAngle_4" class="pt-3 pb-1"> <i class="fa-solid fa-angle-down"></i> </button>
+        </div>
+        <div id="lMenuLv1_4" data-gcd="31" class="ml-2 pl-4 py-4 mb-4 rounded-lg" style="line-height:2rem; background-color:#f5f4f9;">
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/RST_011"><li class="pl-3 hover:color-base hover:font-bold">축구</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/RST_021"><li class="pl-3 hover:color-base hover:font-bold">마라톤</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/RST_031"><li class="pl-3 hover:color-base hover:font-bold">탁구</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/RST_041"><li class="pl-3 hover:color-base hover:font-bold">야구</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/RST_051"><li class="pl-3 hover:color-base hover:font-bold">테니스</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/RST_061"><li class="pl-3 hover:color-base hover:font-bold">산악</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/RST_071"><li class="pl-3 hover:color-base hover:font-bold">난우</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/RST_091"><li class="pl-3 hover:color-base hover:font-bold">검도</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/RST_111"><li class="pl-3 hover:color-base hover:font-bold">당구</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/board/list/RST_121"><li class="pl-3 hover:color-base hover:font-bold">사물놀이</li></a>
+                  
+                
+              
+              
+            
+          
+        </div>
+      
+        <div class="flex justify-between cursor-pointer hover:color-base border-b border-[#e5e7eb]" onclick="lmToggleLv1('5')">
+          <li id="lMenuLv0_5" class="pl-2 pt-3 pb-1 font-bold text-lg" > <a href="#"> 관련사이트 </a></li>
+          <button id="btnAngle_5" class="pt-3 pb-1"> <i class="fa-solid fa-angle-down"></i> </button>
+        </div>
+        <div id="lMenuLv1_5" data-gcd="5" class="ml-2 pl-4 py-4 mb-4 rounded-lg" style="line-height:2rem; background-color:#f5f4f9;">
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/pages/sitelink1"><li class="pl-3 hover:color-base hover:font-bold">본부/지부/직협</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                    <a href="https://www.gov.kr/portal/orgInfo" target="_blank"><li class="pl-3 hover:color-base hover:font-bold">정부/지자체</li></a>                    
+                  
+                  
+                
+              
+              
+            
+          
+            
+              
+                
+                  
+                  											
+                    <a href="/branch/bsdonggu/pages/sitelink4"><li class="pl-3 hover:color-base hover:font-bold">노동사회단체</li></a>
+                  
+                
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+            
+              
+              
+            
+          
+        </div>
+      
+    </ul>
+  </div>
+  <div class="flex justify-center gap-4">
+    <img src="/resources/static/branch/skin_02/images/sns_facebook.jpg" alt="">
+    <img src="/resources/static/branch/skin_02/images/sns_youtube.jpg" alt="">
+    <!-- <i class="fa-brands fa-facebook fa-xl pr-2" style="color: #3c5a9e"></i> 
+    <i class="fa-brands fa-youtube fa-xl" style="color: red;"></i>-->
+  </div>
+  <div class="pt-3 flex flex-col text-sm w-full">
+    <div class="text-center text-gray-500">
+      <p class="">부산 동구 구청로 1</p>
+      <p class="">(수정2동 806-74) 동구의회 지하2층  (우:48781)</p>
+      <p>
+        <span class="">Tel:   051-440-4045~6</span>
+        <span class="">Fax: 051-440-4047</span>
+      </p>
+    </div>
+  </div>
+</section>
+<script>
+  // 현재페이지가 속한 메뉴박스는 열린상태유지
+  const gPcd = '3';
+  //const arrLv0 = document.querySelectorAll("[id^='lMenuLv0_']");
+  const arrLv1 = document.querySelectorAll("[id^='lMenuLv1_']"); 
+  arrLv1.forEach(function(el,index){
+    if (gPcd != el.dataset.gcd) {
+      el.classList.add('hidden');
+    }
+    //console.log('------el.dataset.gcd--->'+el.dataset.gcd+'<------>'+gPcd+'<---------');
+  });  
+</script>
+
+		</div>
+		<div class="contents-wrap">
+			
+
+<div class="flex justify-center gap-8 items-center pt-6 md:hidden">
+  <div id="btnSidebar" class="px-4">
+    <i class="fas fa-bars fa-xl"></i>  <!-- 모바일 사이드메뉴 버튼 -->
+  </div>
+  <div class="flex-1 flex flex-col pl-2">
+    <div><a href="/branch/bsdonggu"><img src="/resources/static/union/img/kgeu_logo.svg" style="width:220px;height:25px;" alt=""></a></div>
+    <div><span class="font-bold pl-2">부산지역본부</span> <span class="font-bold pl-2">동구지부</span></div>
+  </div>
+</div>
+
+<!-- 모바일 화면 사이드 메뉴 -->
+<div class="side-bar-box">
+  <div class="side-bar">
+    <div class="side-bar-header flex justify-around items-center">
+			<div class="text-lg">
+				
+					
+					
+						<a href="/union/login/page/branch-bsdonggu">로그인</a>
+					
+				
+			</div>
+			<div>
+				<i onclick="window.open('https://www.facebook.com/kgeu0323/')" class="fa-brands fa-facebook fa-xl pr-2"></i>
+				<i onclick="window.open('https://www.youtube.com/channel/UCOQfelmR1U-KykUl7R66OOw/featured')" class="fa-brands fa-youtube fa-xl"></i>
+			</div>
+			<div class="side-bar--close">
+				<i class="fa-solid fa-xmark fa-xl"></i>
+			</div>
+		</div>
+
+    <div class="px-8 pt-4">
+      <ul class="basis-9/12 text-gray-600">
+				
+					
+						
+						
+							<li class="pt-2 font-bold" onclick="mToggleLv1(0)">지부소개</li>
+						
+					
+					<div id="sideMenuLv1_0" class="px-2 py-4 rounded-lg hidden" style="background-color: #f5f4f9;">
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/pages/intro2"><li class="pl-3 text-sm">창립선언문</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/pages/intro1"><li class="pl-3 text-sm">강령</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/pages/page53646"><li class="pl-3 text-sm">조직도</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/HIS_105"><li class="pl-3 text-sm">연혁</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/INT_051"><li class="pl-3 text-sm">규정/규칙</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+					</div>
+					
+				
+					
+						
+						
+							<li class="pt-2 font-bold" onclick="mToggleLv1(1)">알림마당</li>
+						
+					
+					<div id="sideMenuLv1_1" class="px-2 py-4 rounded-lg hidden" style="background-color: #f5f4f9;">
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/GUD_011"><li class="pl-3 text-sm">지부공지</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/Nquick"><li class="pl-3 text-sm">조합공지</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/Nsokbo"><li class="pl-3 text-sm">조합소식</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/Ncenter"><li class="pl-3 text-sm">전국본부소식</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/Nlocal"><li class="pl-3 text-sm">전국지부소식</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/Ncomment"><li class="pl-3 text-sm">성명/논평</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/Ndata"><li class="pl-3 text-sm">보도자료</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/Nclipping"><li class="pl-3 text-sm">뉴스클리핑</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/GUD_081"><li class="pl-3 text-sm">조합원소식</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/GUD_091"><li class="pl-3 text-sm">조합원혜택/협약사항</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/CAL_011"><li class="pl-3 text-sm">주요일정</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+					</div>
+					
+				
+					
+						
+						
+							<li class="pt-2 font-bold" onclick="mToggleLv1(2)">열린마당</li>
+						
+					
+					<div id="sideMenuLv1_2" class="px-2 py-4 rounded-lg hidden" style="background-color: #f5f4f9;">
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/BRD_011"><li class="pl-3 text-sm">자유게시판</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/BRD_051"><li class="pl-3 text-sm">선배공무원소식</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/BRD_061 "><li class="pl-3 text-sm">단체교섭(안) 의견수렴 </li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/BRD_021"><li class="pl-3 text-sm">쉼터</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/poll/list"><li class="pl-3 text-sm">설문조사</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/BRD_050"><li class="pl-3 text-sm">선거게시판</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+					</div>
+					
+				
+					
+						
+						
+							<li class="pt-2 font-bold" onclick="mToggleLv1(3)">자료마당</li>
+						
+					
+					<div id="sideMenuLv1_3" class="px-2 py-4 rounded-lg hidden" style="background-color: #f5f4f9;">
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/DAT_011"><li class="pl-3 text-sm">문서자료</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/DAT_021"><li class="pl-3 text-sm">사진자료</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+					</div>
+					
+				
+					
+						
+						
+							<li class="pt-2 font-bold" onclick="mToggleLv1(4)">동호회</li>
+						
+					
+					<div id="sideMenuLv1_4" class="px-2 py-4 rounded-lg hidden" style="background-color: #f5f4f9;">
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/RST_011"><li class="pl-3 text-sm">축구</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/RST_021"><li class="pl-3 text-sm">마라톤</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/RST_031"><li class="pl-3 text-sm">탁구</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/RST_041"><li class="pl-3 text-sm">야구</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/RST_051"><li class="pl-3 text-sm">테니스</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/RST_061"><li class="pl-3 text-sm">산악</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/RST_071"><li class="pl-3 text-sm">난우</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/RST_091"><li class="pl-3 text-sm">검도</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/RST_111"><li class="pl-3 text-sm">당구</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/board/list/RST_121"><li class="pl-3 text-sm">사물놀이</li></a>
+										
+																		
+								
+								
+							
+						
+					</div>
+					
+				
+					
+						
+						
+							<li class="pt-2 font-bold" onclick="mToggleLv1(5)">관련사이트</li>
+						
+					
+					<div id="sideMenuLv1_5" class="px-2 py-4 rounded-lg hidden" style="background-color: #f5f4f9;">
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/pages/sitelink1"><li class="pl-3 text-sm">본부/지부/직협</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+																					
+											<a href="https://www.gov.kr/portal/orgInfo" target="_blank"><li class="pl-3 text-sm">정부/지자체</li></a>									
+										
+										
+																		
+								
+								
+							
+						
+							
+								
+									
+										
+																					
+											<a href="/branch/bsdonggu/pages/sitelink4"><li class="pl-3 text-sm">노동사회단체</li></a>
+										
+																		
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+							
+								
+								
+							
+						
+					</div>
+					
+				
+			</ul>
+    </div>
+  </div>
+
+</div>
+<script>
+	// 모바일 사이드메뉴 하위메뉴 toggle
+  function mToggleLv1(idx) {
+		const arrLv1 = document.querySelectorAll("[id^='sideMenuLv1_']"); 
+		arrLv1.forEach(function(el,index){
+			if (idx == index) {
+				el.classList.remove('hidden');
+			} else {
+				el.classList.add('hidden');
+			}
+		});	
+  }
+</script>  
+			<div class="page-wrap">		
+				
+
+<style>
+	.header-bg {
+		width:100%;
+		height:200px;
+		background-image:url(/resources/static/branch/skin_02/images/sub_top_bg.jpg);
+		background-repeat: no-repeat;
+		background-position:0% 50%;
+	}
+	.header-bg-grad {
+		background: linear-gradient(90deg, #3f1aa7 10%, rgba(9,9,121,0) 50%, rgba(0,212,255,0) 100%);
+		width: 100%;
+		display: flex;
+		align-items: center;
+	}
+</style>
+
+<script>
+	function fnGoSubPage(gUrl) {
+		document.formGnbPage.action = gUrl; 
+		document.formGnbPage.submit();  
+	}
+	function fnGoTop() {
+		$('html, body').animate({scrollTop:0},400);
+		return false;
+	}
+	// TOP버튼 
+	$(function() { 
+		$(window).scroll(function() {
+			if ($(this).scrollTop() > 300){
+				$('.btn_gotop').show();
+			} else{
+				$('.btn_gotop').hide();
+			}
+		});	
+		
+		
+	});	
+</script>
+
+<form name="formGnbPage" action="" method="GET">
+</form>
+<!-- Header -->
+<header id="header" class="header-bg">
+	<div class="header-bg-grad" >
+		<div style="width:80%;">
+      <p id="subTitle" class="text-2xl text-white pb-4 pl-10 md:pl-20"></p>
+      <p id="subTitleDesc" class="text-lg text-white pl-10 md:pl-20">투쟁과 교섭으로, 내 삶을 바꾸는 공무원노조! 국민의 공무원, 100만 공무원 노조</p>
+    </div>
+	</div>
+</header>
+<script>
+  subTitle.innerHTML = '열린마당';
+	
+	let subImg = '';
+	if(subImg != null && subImg != '') $('.header-bg').css("background-image", "url(/files/branch/bsdonggu/subImage/"+subImg+')');	
+</script>	
+				<section id="board-list" class="contents">
+					<div class="page-title">
+						<span class="text-xl font-bold">자유게시판</span>
+						<span style="font-size:0.7rem;padding-left:10px;color:#737475;">( 20,805 건 )</span>
+					</div>
+
+					<div class="pb-1 pt-5 ck-content "></div>
+
+					<!-- 게시물 분류그룹이 있는 경우 탭영역 -->
+          
+					
+						
+							
+							
+								<div class="pb-2 flex justify-between">
+									<a href="/branch/bsdonggu/board/write/BRD_011" class="btn" style="height:26px;padding-top:0;">글작성</a>
+								</div>
+							
+							
+						
+					
+					
+					<ul>
+						<li class="board__li__header">
+							<p class="board__header__no">
+								
+								번호</p>
+							<p class="board__header__title">제목</p>
+							<p class="board__header__date">작성일</p>
+							
+								<p class="board__header__name basis-15p">작성자</p>
+														
+							<p class="board__header__hit">조회</p>
+						</li>
+						
+						
+							
+							<li class="board__li__data board__li__notice">
+								<p class="board__no">
+									
+									 
+										 
+											공지
+										 
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/42621?page=1" onclick="return fnSecretIdChk('42621','');" class="font-bold">
+												노조게시판은 IP가 추적되지 않습니다. 그래서 엄중하게 관리합니다.
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									
+                  
+
+										
+										
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2024-05-27</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+                          <img class="inline" src="/resources/static/common/favicon/icon-28x28.svg"/>
+                        
+												동구지부관리자
+											</p>
+										
+									
+																
+								<p class="board__hit">1376</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20805
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44164?page=1" onclick="return fnSecretIdChk('44164','');" >
+												시설관리공단 관련 다시 검토가 필요합니다.(재업로드)
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 23
+												&nbsp;
+												
+												
+												 
+												<i class="fa-regular fa-thumbs-down"></i> 1  
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">1</span><span style="font-size:11px;">]</span>
+
+										
+										 <img class="inline" src="\resources\static\common\images\icon_new.png"/>
+												
+									</span>
+								</p>
+								<p class="board__date">2026-07-24</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												동구를사랑하는직원
+											</p>
+										
+									
+																
+								<p class="board__hit">179</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20804
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44163?page=1" onclick="return fnSecretIdChk('44163','');" >
+												지부장님 방금 글 삭제이유 설명좀
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												
+												
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">1</span><span style="font-size:11px;">]</span>
+
+										
+										 <img class="inline" src="\resources\static\common\images\icon_new.png"/>
+												
+									</span>
+								</p>
+								<p class="board__date">2026-07-24</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												왜 글 삭제함?
+											</p>
+										
+									
+																
+								<p class="board__hit">266</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20803
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44155?page=1" onclick="return fnSecretIdChk('44155','');" >
+												운전 눈치
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 3
+												&nbsp;
+												
+												
+												 
+												<i class="fa-regular fa-thumbs-down"></i> 29  
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">12</span><span style="font-size:11px;">]</span>
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-23</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												아기
+											</p>
+										
+									
+																
+								<p class="board__hit">515</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20802
+										 
+									  	
+								</p>
+								<p class="board__title reply_1">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44160?page=1" onclick="return fnSecretIdChk('44160','');" >
+												우린 돈을 받는 이상 프로입니다.
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 7
+												&nbsp;
+												
+												
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">2</span><span style="font-size:11px;">]</span>
+
+										
+										 <img class="inline" src="\resources\static\common\images\icon_new.png"/>
+												
+									</span>
+								</p>
+								<p class="board__date">2026-07-24</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												PRO
+											</p>
+										
+									
+																
+								<p class="board__hit">375</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20801
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44151?page=1" onclick="return fnSecretIdChk('44151','');" >
+												동구의회의 비대함
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 39
+												&nbsp;
+												
+												
+												 
+												<i class="fa-regular fa-thumbs-down"></i> 3  
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">3</span><span style="font-size:11px;">]</span>
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-23</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												이바구기자
+											</p>
+										
+									
+																
+								<p class="board__hit">569</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20800
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44145?page=1" onclick="return fnSecretIdChk('44145','');" >
+												시부지기 승진챙기는 저 세상 조직
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 58
+												&nbsp;
+												
+												
+												 
+												<i class="fa-regular fa-thumbs-down"></i> 8  
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">26</span><span style="font-size:11px;">]</span>
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-22</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												회의감
+											</p>
+										
+									
+																
+								<p class="board__hit">814</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20799
+										 
+									  	
+								</p>
+								<p class="board__title reply_1">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44152?page=1" onclick="return fnSecretIdChk('44152','');" >
+												안녕하세요. 지부장 이경훈입니다.
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 6
+												&nbsp;
+												
+												
+												 
+												<i class="fa-regular fa-thumbs-down"></i> 13  
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">1</span><span style="font-size:11px;">]</span>
+
+										
+										
+												
+									</span>
+								</p>
+								<p class="board__date">2026-07-23</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												지부장 이경훈
+											</p>
+										
+									
+																
+								<p class="board__hit">463</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20798
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44140?page=1" onclick="return fnSecretIdChk('44140','');" >
+												새로운 의장님, 의원님께
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 22
+												&nbsp;
+												
+												
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">3</span><span style="font-size:11px;">]</span>
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-21</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												직원
+											</p>
+										
+									
+																
+								<p class="board__hit">736</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20797
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44126?page=1" onclick="return fnSecretIdChk('44126','');" >
+												본인이 삭제한 글
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 13
+												&nbsp;
+												
+												
+												 
+												<i class="fa-regular fa-thumbs-down"></i> 35  
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">18</span><span style="font-size:11px;">]</span>
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-11</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												---
+											</p>
+										
+									
+																
+								<p class="board__hit">1538</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20796
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44124?page=1" onclick="return fnSecretIdChk('44124','');" >
+												인사 요약
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 49
+												&nbsp;
+												
+												
+												 
+												<i class="fa-regular fa-thumbs-down"></i> 9  
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">4</span><span style="font-size:11px;">]</span>
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-10</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												건의
+											</p>
+										
+									
+																
+								<p class="board__hit">1438</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20795
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44122?page=1" onclick="return fnSecretIdChk('44122','');" >
+												엘베 점검 공지보다 느리노ㅋㅋ
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 19
+												&nbsp;
+												
+												
+												
+											</span>
+										
+                  
+
+										
+										
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-10</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												뚜벅이
+											</p>
+										
+									
+																
+								<p class="board__hit">787</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20794
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44119?page=1" onclick="return fnSecretIdChk('44119','');" >
+												혹시 동구만 선거했나요
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 103
+												&nbsp;
+												
+												
+												 
+												<i class="fa-regular fa-thumbs-down"></i> 4  
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">35</span><span style="font-size:11px;">]</span>
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-10</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												1년차
+											</p>
+										
+									
+																
+								<p class="board__hit">1208</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20793
+										 
+									  	
+								</p>
+								<p class="board__title reply_1">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44121?page=1" onclick="return fnSecretIdChk('44121','');" >
+												결재 다 난 것도 빨리 안알려주네요
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 41
+												&nbsp;
+												
+												
+												
+											</span>
+										
+                  
+
+										
+										
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-10</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												결재완료
+											</p>
+										
+									
+																
+								<p class="board__hit">748</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20792
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44117?page=1" onclick="return fnSecretIdChk('44117','');" >
+												행정바보 세무만세 --  정말 궁금
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 24
+												&nbsp;
+												
+												
+												 
+												<i class="fa-regular fa-thumbs-down"></i> 23  
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">5</span><span style="font-size:11px;">]</span>
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-08</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												옆동네에서
+											</p>
+										
+									
+																
+								<p class="board__hit">866</p>
+							</li>
+						
+							
+							<li class="board__li__data ">
+								<p class="board__no">
+									
+									 
+										 
+										 
+																						
+											20791
+										 
+									  	
+								</p>
+								<p class="board__title reply_0">
+									
+                    
+                    
+                      <a href="/branch/bsdonggu/board/view/BRD_011/44113?page=1" onclick="return fnSecretIdChk('44113','');" >
+												왜 구청장은 직원들의 근무만족도를 최우선으로 생각하지 않는걸까
+                    
+                    
+                  	
+									</a>
+									<span style="margin: 0 5px;">
+									 
+											<span style="font-size:11px;color:#2172b9;font-weight: bold;">
+												 
+												<i class="fa-regular fa-thumbs-up"></i> 25
+												&nbsp;
+												
+												
+												 
+												<i class="fa-regular fa-thumbs-down"></i> 13  
+												
+											</span>
+										
+                  
+
+										
+										 <span style="font-size:11px;"><img class="inline" src="\resources\static\common\images\icon_comment.png"/> [</span><span style="font-size:11px; color: #2172b9; font-weight: bold;">5</span><span style="font-size:11px;">]</span>
+
+										
+										
+										 <img class="inline" src="\resources\static\common\images\icon_hot.png"/>		
+									</span>
+								</p>
+								<p class="board__date">2026-07-07</p>
+								
+									 
+                    
+										 
+										 
+											
+											<p class="board__name basis-15p">
+												
+												구청장에게직원이란...
+											</p>
+										
+									
+																
+								<p class="board__hit">977</p>
+							</li>
+						
+					</ul>
+					<!-- 페이징 -->
+					
+						
+					
+
+
+
+
+<script language="javascript">
+  function fnGoPage(page) {
+    $('#page').val(page);
+    $("#formPage").submit();
+  }
+</script>
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="paging" class="pt-8 flex justify-center">
+  <span class="text-center">
+  
+  
+    
+      
+        <span class="rounded-full bg-blue-500 text-white"><a href="javascript:fnGoPage(1;">1</a></span>
+      
+      
+    
+  
+    
+      
+      
+        <span class=""><a href="javascript:fnGoPage(2);">2</a></span>
+      
+    
+  
+    
+      
+      
+        <span class=""><a href="javascript:fnGoPage(3);">3</a></span>
+      
+    
+  
+    
+      
+      
+        <span class=""><a href="javascript:fnGoPage(4);">4</a></span>
+      
+    
+  
+    
+      
+      
+        <span class=""><a href="javascript:fnGoPage(5);">5</a></span>
+      
+    
+  
+    
+      
+      
+        <span class=""><a href="javascript:fnGoPage(6);">6</a></span>
+      
+    
+  
+    
+      
+      
+        <span class=""><a href="javascript:fnGoPage(7);">7</a></span>
+      
+    
+  
+    
+      
+      
+        <span class=""><a href="javascript:fnGoPage(8);">8</a></span>
+      
+    
+  
+    
+      
+      
+        <span class=""><a href="javascript:fnGoPage(9);">9</a></span>
+      
+    
+  
+    
+      
+      
+        <span class=""><a href="javascript:fnGoPage(10);">10</a></span>
+      
+    
+  
+  
+    <span class="px-2"><a href="javascript:fnGoPage(10+1);"> <i class="fa-solid fa-caret-right fa-lg text-slate-600"></i> </a></span>
+    <a href="#" onclick="fnGoPage('1387');"> <i class="fa-solid fa-forward text-slate-600"></i> </a>  
+  
+  </span>
+</div>
+
+<form id="formPage" action="/branch/bsdonggu/board/list/BRD_011" method="GET">
+  <input id="page" name="page" type="hidden" value="1"/>
+  <input id="oId" name="oId" type="hidden" value="0"/>
+  <input id="bgId" name="bgId" type="hidden" value="0"/>
+  <input id="oBcode" name="oBcode" type="hidden" value=""/>
+  <input id="oZcode" name="oZcode" type="hidden" value=""/>
+  <input id="searchField" name="searchField" type="hidden" value=""/>
+  <input id="searchValue" name="searchValue" type="hidden" value=""/>
+</form>
+	
+					<div class="search-area my-6">
+						<div>
+							<form action="/branch/bsdonggu/board/list/BRD_011" method="GET" id="formPage" name="formPage">
+								<select name="searchField" >
+									<option value="WR_SUBJECT" >제목</option>
+									<option value="WR_CONTENT" >내용</option>
+									<option value="WR_NAME" >작성자</option>
+								</select>
+								<input type="text" name="searchValue" id="searchValue" value=""/>
+								<input type="submit" class="btn" value="검색" style="display:inline">
+							</form>
+						</div>
+					</div>	
+
+					<div class="pb-1 pt-5 ck-content "></div>
+				</section>
+				
+
+<!-- footer -->
+<footer>
+	<section class="footer-wrap rounded-lg" style="background-color:#efeef4;">
+		<div class="flex justify-center gap-8 flex-col md:flex-row item-center py-4 border-b border-[#e5e7eb]">
+			<div>
+				<img src="/resources/static/common/images/kgeu_gray.svg" style="width:250px" alt="">
+				<div class="text-center font-bold text-sm md:text-lg" style="color:#aaaaaa;"> <span>부산지역본부</span> <span>동구지부</span></div>
+			</div>
+			
+			<div class="flex md:items-center flex-col md:flex-row">
+				<select class="footer-select rounded-lg w-full md:w-60" onchange="fnGetLocalSiteLink(this.value);">
+					<option value="">지역본부</option>
+						
+						<option value="B10">중앙</option>
+						
+						<option value="B11">서울지역본부</option>
+						
+						<option value="B12">광주지역본부</option>
+						
+						<option value="B13">경북지역본부</option>
+						
+						<option value="B14">부산지역본부</option>
+						
+						<option value="B15">울산지역본부</option>
+						
+						<option value="B16">강원지역본부</option>
+						
+						<option value="B17">경기지역본부</option>
+						
+						<option value="B18">경남지역본부</option>
+						
+						<option value="B19">전북지역본부</option>
+						
+						<option value="B20">제주지역본부</option>
+						
+						<option value="B21">충북지역본부</option>
+						
+						<option value="B22">세종충남지역본부</option>
+						
+						<option value="B23">중앙행정기관본부</option>
+						
+						<option value="B25">인천지역본부</option>
+						
+						<option value="B26">전남지역본부</option>
+						
+						<option value="B28">국회본부</option>
+						
+						<option value="B29">법원본부</option>
+						
+						<option value="B32">대학본부</option>
+						
+						<option value="B33">교육청본부</option>
+						
+						<option value="B34">소방본부</option>
+						
+						<option value="B35">대구지역본부</option>
+					
+				</select>				
+				<select id="localLink" name="localLink" class="footer-select rounded-lg w-full md:w-60 md:ml-2" onchange="(value != '')?window.open(value,'_blank'):false;">
+					<option value="">지부</option>
+						
+						<option value="https://www.kgeu.org/branch/bsgangseogu">강서구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/kumjung">금정구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/gijang">기장군지부</option>
+						
+						<option value="https://www.kgeu.org/branch/bsnam">남구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/bsdonggu">동구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/dongnae">동래구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/busanjingu">부산진구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/busanbukgu">북구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/sasanggu">사상구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/saha">사하구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/seoguhim">서구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/suyeong">수영구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/yeonje">연제구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/ayo">영도구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/bsjunggu">중구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/haeundaegu">해운대구지부</option>
+					
+				</select>
+				<select class="footer-select rounded-lg w-full md:w-60 md:ml-2" id="site_link"  onchange="window.open(value,'_blank');">
+					<option value="">민주노총산별연맹</option>
+					
+				</select>
+			</div>
+			<div class="flex justify-center items-center px-2 " style="color:#888888">
+			  <p>	인트라넷 </p>  
+			</div>
+		</div>
+		<div class="w-full text-right" style="max-width: 1120px;">
+			<p style="color:#888888" class="py-2 px-2">
+				<span class="pl-2">부산 동구 구청로 1 (수정2동 806-74) 동구의회 지하2층  (우:48781)</span><br class="md:hidden block"/>
+				<span class="pl-2">Tel:   051-440-4045~6</span><br class="md:hidden block"/>
+				<span class="pl-2">Fax: 051-440-4047</span><br class="md:hidden block"/>
+				<span class="pl-2">E-mail: </span>
+				
+			</p>
+			<p class="copy py-2  px-2 text-xs md:text-base" style="color:#888888">Copyright 전국공무원노동조합 부산지역본부 동구지부 All Right Reserved.</p>
+		</div>
+	</section>
+
+	<script>
+		// 본부링크배열
+		const arrCenterList = [
+			
+			{ bcode: "B10", nm: "중앙", url: "http://www.kgeu.org" },
+			
+			{ bcode: "B11", nm: "서울지역본부", url: "http://seoul.kgeu.kr" },
+			
+			{ bcode: "B12", nm: "광주지역본부", url: "https://www.kgeu.org/branch/gwangju" },
+			
+			{ bcode: "B13", nm: "경북지역본부", url: "http://gb.kgeu.org" },
+			
+			{ bcode: "B14", nm: "부산지역본부", url: "https://www.kgeu.org/branch/busan" },
+			
+			{ bcode: "B15", nm: "울산지역본부", url: "http://ulsan.kgeu.org" },
+			
+			{ bcode: "B16", nm: "강원지역본부", url: "https://www.kgeu.org/branch/gw" },
+			
+			{ bcode: "B17", nm: "경기지역본부", url: "https://www.kgeu.org/branch/kg" },
+			
+			{ bcode: "B18", nm: "경남지역본부", url: "http://gn.kgeu.org/ " },
+			
+			{ bcode: "B19", nm: "전북지역본부", url: "http://jeonbuk.kgeu.org" },
+			
+			{ bcode: "B20", nm: "제주지역본부", url: "http://jejubb.or.kr" },
+			
+			{ bcode: "B21", nm: "충북지역본부", url: "https://www.kgeu.org/branch/cbnozo" },
+			
+			{ bcode: "B22", nm: "세종충남지역본부", url: "https://www.kgeu.org/branch/cnnozo" },
+			
+			{ bcode: "B23", nm: "중앙행정기관본부", url: "http://kgwu.kgeu.org" },
+			
+			{ bcode: "B25", nm: "인천지역본부", url: "http://incheon.kgeu.org" },
+			
+			{ bcode: "B26", nm: "전남지역본부", url: "http://jeonnam.kgeu.org" },
+			
+			{ bcode: "B28", nm: "국회본부", url: "" },
+			
+			{ bcode: "B29", nm: "법원본부", url: "" },
+			
+			{ bcode: "B32", nm: "대학본부", url: "http://knueu.kgeu.org" },
+			
+			{ bcode: "B33", nm: "교육청본부", url: "http://eo.kgeu.org " },
+			
+			{ bcode: "B34", nm: "소방본부", url: "http://firefighter.kgeu.org/" },
+			
+			{ bcode: "B35", nm: "대구지역본부", url: "http://dgkgeu.kgeu.kr" },
+		
+		];
+
+		// 하단 사이트링크 select 선택시 지부목록 (첫번째줄는 해당본부가 나오게)
+		function fnGetLocalSiteLink(oBCode) {
+			const localLink = $('#localLink');
+			$.ajax({
+				type: 'GET',
+				url: '/union/site/api/getOrgLocalForCombo?oBCode='+oBCode,
+				contentType: 'application/json; charset=utf-8',
+				success: function(arrList) {
+					localLink.empty();
+					localLink.append("<option value=''>선택</option>");
+					let hq = arrCenterList.filter((item) => {
+						return item.bcode == oBCode;
+					});
+					localLink.append("<option value='"+hq[0].url+"'>"+hq[0].nm+"</option>");
+					arrList.forEach((item, index) => {
+						localLink.append("<option value='"+item.SITE_URL+"'>"+item.O_NM+"</option>");
+					});
+				},
+				error: function() {
+					localLink.empty();
+				}
+			});
+		}
+
+		
+    $(document).ready(function(){
+      const localLink = $('#site_link');
+      $.ajax({
+				type: 'GET',
+				url: '/union/site/api/getOtherSiteCombo?oBCode=bsdonggu',
+				contentType: 'application/json; charset=utf-8',
+				success: function(arrList) {
+					localLink.empty();
+					localLink.append("<option value=''>민주노총산별연맹</option>");
+					arrList.forEach((item, index) => {
+						localLink.append("<option value='"+item.CSC_URL+"'>"+item.CSC_SUBJECT+"</option>");
+					});
+				},
+				error: function() {
+					localLink.empty();
+				}
+			});
+    });
+	</script>	
+</footer>
+<!-- 
+<footer>
+	<section class="footer-wrap rounded-lg" style="background-color:#efeef4;">
+		<div class="flex w-full h-12 justify-between items-center" >
+			<div class="pl-10">
+				인트라넷  <span class="text-gray-300">Ⅰ</span> 
+			</div>
+			<div>
+				<select class="footer-select rounded-lg w-28 md:w-60" onchange="(value != '')?window.open(value,'_blank'):false;">
+					<option value="">지역본부</option>
+						
+						<option value="http://www.kgeu.org">중앙</option>
+						
+						<option value="http://seoul.kgeu.kr">서울지역본부</option>
+						
+						<option value="https://www.kgeu.org/branch/gwangju">광주지역본부</option>
+						
+						<option value="http://gb.kgeu.org">경북지역본부</option>
+						
+						<option value="https://www.kgeu.org/branch/busan">부산지역본부</option>
+						
+						<option value="http://ulsan.kgeu.org">울산지역본부</option>
+						
+						<option value="https://www.kgeu.org/branch/gw">강원지역본부</option>
+						
+						<option value="https://www.kgeu.org/branch/kg">경기지역본부</option>
+						
+						<option value="http://gn.kgeu.org/ ">경남지역본부</option>
+						
+						<option value="http://jeonbuk.kgeu.org">전북지역본부</option>
+						
+						<option value="http://jejubb.or.kr">제주지역본부</option>
+						
+						<option value="https://www.kgeu.org/branch/cbnozo">충북지역본부</option>
+						
+						<option value="https://www.kgeu.org/branch/cnnozo">세종충남지역본부</option>
+						
+						<option value="http://kgwu.kgeu.org">중앙행정기관본부</option>
+						
+						<option value="http://incheon.kgeu.org">인천지역본부</option>
+						
+						<option value="http://jeonnam.kgeu.org">전남지역본부</option>
+						
+						<option value="">국회본부</option>
+						
+						<option value="">법원본부</option>
+						
+						<option value="http://knueu.kgeu.org">대학본부</option>
+						
+						<option value="http://eo.kgeu.org ">교육청본부</option>
+						
+						<option value="http://firefighter.kgeu.org/">소방본부</option>
+						
+						<option value="http://dgkgeu.kgeu.kr">대구지역본부</option>
+					
+				</select>
+				<select class="footer-select rounded-lg w-28 md:w-60 ml-2" onchange="(value != '')?window.open(value,'_blank'):false;">
+					<option value="">지부</option>
+						
+						<option value="https://www.kgeu.org/branch/bsgangseogu">강서구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/kumjung">금정구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/gijang">기장군지부</option>
+						
+						<option value="https://www.kgeu.org/branch/bsnam">남구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/bsdonggu">동구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/dongnae">동래구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/busanjingu">부산진구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/busanbukgu">북구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/sasanggu">사상구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/saha">사하구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/seoguhim">서구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/suyeong">수영구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/yeonje">연제구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/ayo">영도구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/bsjunggu">중구지부</option>
+						
+						<option value="https://www.kgeu.org/branch/haeundaegu">해운대구지부</option>
+					
+				</select>
+			</div>
+		</div>
+		<div class="flex flex-col md:flex-row w-full justify-center items-center md:justify-between pt-5">
+			<p class="text-center pb-2">전국공무원노동조합 부산지역본부 동구지부</p>
+			<div class="flex-1 px-4 text-sm text-center" style="color:#8a8888">
+				<span class="pl-2">부산 동구 구청로 1 (수정2동 806-74) 동구의회 지하2층  (우:48781)</span>
+				<span class="pl-2">Tel:   051-440-4045~6</span>
+				<span class="pl-2">Fax: 051-440-4047</span>
+  		</div>
+			<div class="text-center">
+				<i class="fa-brands fa-facebook fa-xl pr-2" style="color: #3c5a9e"></i>
+				<i class="fa-brands fa-youtube fa-xl" style="color: red;"></i>
+			</div>
+		</div>
+		<p class="copy py-5 text-xs md:text-sm" style="color:#b1b1b1">Copyright 전국공무원노동조합 부산지역본부 동구지부 All Right Reserved.</p>
+	</section>
+</footer>
+-->
+<span class="btn_gotop fixed hidden" style="right:20px; bottom:30px; color:#3c5a9e;" onclick="fnGoTop()"><i class="fa-solid fa-circle-chevron-up fa-2xl"></i></span>	
+			</div>
+		</div>		
+	</div>
+  <div class="layer_wrap" id="layer_wrap1" style="display:none;">
+    <div class="modal_body" style="width:400px;height:135px;">
+      <div class="m_head" style="height: 34%;">
+        <div class="modal_title">비밀번호 확인</div>
+        <div class="close_btn" onclick="layerClose()">X</div>
+      </div>
+      <div class="m_body" style="height: 66%; margin: 0 auto;">
+        <div>
+        <form method="post" id="frmModal">
+					<input type="hidden" id="layerWrId" name="wrId" />
+          <ul style="padding-top: 8px;">
+            <li class="inline"><input class="inline" type="password" id="wrPassword" name="wrPassword" /></li>
+            <li class="inline"><button class="btn" style="display: inline;" type="button" onclick="fnSecretPwdChk();" >확인</button></li>
+          </ul>
+        </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+	<script>
+		$(document).ready(function(){
+			$('#wrPassword').on('keyup',function(e){
+	
+				e.preventDefault();
+				if(e.keyCode == 13){
+					fnPwdChk();
+				}
+			})
+		});
+	</script>
+</body>
+</html>  
