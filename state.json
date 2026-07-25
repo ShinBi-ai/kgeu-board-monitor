@@ -1,3 +1,7 @@
 {
-    "boards": {}
+    "boards": {
+        "free": {
+            "last_post_id": "44164"
+        }
+    }
 }

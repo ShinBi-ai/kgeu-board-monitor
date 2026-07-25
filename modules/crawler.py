@@ -1,56 +1,73 @@
+import time
+
 import requests
 from bs4 import BeautifulSoup
 
 from boards.kgeu import BOARD
+from config import REQUEST_TIMEOUT, USER_AGENT
 from modules.logger import Logger
 
 
 def get_latest_post():
     Logger.info("게시판 접속 중...")
 
-    response = requests.get(
-        BOARD["url"],
-        headers={"User-Agent": "Mozilla/5.0"},
-        timeout=10,
-    )
-    response.raise_for_status()
+    last_error = None
 
-    Logger.info("게시판 HTML 다운로드 완료")
+    # 최대 3번 재시도
+    for attempt in range(3):
+        try:
+            response = requests.get(
+                BOARD["url"],
+                headers={"User-Agent": USER_AGENT},
+                timeout=REQUEST_TIMEOUT,
+            )
 
-    soup = BeautifulSoup(response.text, "lxml")
+            response.raise_for_status()
 
-    posts = soup.select("li.board__li__data")
+            Logger.info("게시판 HTML 다운로드 완료")
 
-    if not posts:
-        raise Exception("게시글을 찾을 수 없습니다.")
+            soup = BeautifulSoup(response.text, "lxml")
 
-    latest = None
+            posts = soup.select("li.board__li__data")
 
-    for post in posts:
-        # 공지사항 제외
-        if "board__li__notice" in post.get("class", []):
-            continue
+            if not posts:
+                raise Exception("게시글을 찾을 수 없습니다.")
 
-        latest = post
-        break
+            latest = None
 
-    if latest is None:
-        raise Exception("일반 게시글이 없습니다.")
+            for post in posts:
+                if "board__li__notice" in post.get("class", []):
+                    continue
 
-    title_tag = latest.select_one("p.board__title a")
+                latest = post
+                break
 
-    latest_post = {
-        "id": title_tag["href"].split("/")[-1].split("?")[0],
-        "title": title_tag.get_text(strip=True),
-        "url": BOARD["base_url"] + title_tag["href"],
-        "number": latest.select_one("p.board__no").get_text(strip=True),
-        "date": latest.select_one("p.board__date").get_text(strip=True),
-        "writer": latest.select_one("p.board__name").get_text(strip=True),
-        "views": latest.select_one("p.board__hit").get_text(strip=True),
-    }
+            if latest is None:
+                raise Exception("일반 게시글이 없습니다.")
 
-    Logger.success(
-        f"최신 게시글 확인 완료 (번호: {latest_post['number']}, ID: {latest_post['id']})"
-    )
+            title_tag = latest.select_one("p.board__title a")
 
-    return latest_post
+            latest_post = {
+                "id": title_tag["href"].split("/")[-1].split("?")[0],
+                "title": title_tag.get_text(strip=True),
+                "url": BOARD["base_url"] + title_tag["href"],
+                "number": latest.select_one("p.board__no").get_text(strip=True),
+                "date": latest.select_one("p.board__date").get_text(strip=True),
+                "writer": latest.select_one("p.board__name").get_text(strip=True),
+                "views": latest.select_one("p.board__hit").get_text(strip=True),
+            }
+
+            Logger.success(
+                f"최신 게시글 확인 완료 (번호: {latest_post['number']}, ID: {latest_post['id']})"
+            )
+
+            return latest_post
+
+        except requests.exceptions.RequestException as e:
+            last_error = e
+            Logger.warning(f"접속 실패 ({attempt + 1}/3), 5초 후 재시도...")
+            time.sleep(5)
+
+    Logger.error("게시판 접속 실패")
+
+    raise last_error
