@@ -1,10 +1,6 @@
 name: KGEU Board Monitor
 
 on:
-  schedule:
-    # 한국시간 기준 10분마다 실행
-    - cron: "*/10 * * * *"
-
   workflow_dispatch:
 
 permissions:
@@ -17,8 +13,26 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+
+      - name: Show Runner Info
+        run: |
+          echo "===== Runner ====="
+          uname -a
+          echo ""
+          echo "===== Public IP ====="
+          curl -4 ifconfig.me || true
+          echo ""
+          echo "===== DNS ====="
+          nslookup www.kgeu.org || true
+
+      - name: Test Connection
+        run: |
+          echo "===== CURL ====="
+          curl -I --connect-timeout 15 https://www.kgeu.org || true
+
+          echo ""
+          echo "===== WGET ====="
+          wget --spider https://www.kgeu.org || true
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -35,15 +49,3 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           python app.py
-
-      - name: Commit state.json
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
-          git add state.json
-
-          git diff --cached --quiet && exit 0
-
-          git commit -m "Update state.json"
-          git push
