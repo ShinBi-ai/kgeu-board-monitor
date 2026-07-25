@@ -2,43 +2,60 @@ import json
 import os
 
 from config import STATE_FILE
+from modules.logger import Logger
 
 
-def _load_state():
+def _create_default_state():
+    return {
+        "boards": {}
+    }
+
+
+def load_state():
     if not os.path.exists(STATE_FILE):
-        return {"boards": {}}
+        Logger.warning("state.json이 없어 새로 생성합니다.")
+        return _create_default_state()
 
-    with open(STATE_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+    try:
+        with open(STATE_FILE, "r", encoding="utf-8") as f:
+            state = json.load(f)
+
+        if "boards" not in state:
+            state["boards"] = {}
+
+        return state
+
+    except Exception as e:
+        Logger.error(f"state.json 읽기 실패: {e}")
+        return _create_default_state()
 
 
-def _save_state(state):
+def save_state(state):
     with open(STATE_FILE, "w", encoding="utf-8") as f:
-        json.dump(
-            state,
-            f,
-            ensure_ascii=False,
-            indent=4,
-        )
+        json.dump(state, f, ensure_ascii=False, indent=4)
 
 
 def load_last_post_id(board_name):
-    state = _load_state()
+    state = load_state()
 
-    return (
-        state
-        .get("boards", {})
-        .get(board_name, {})
-        .get("last_post_id")
-    )
+    board = state["boards"].get(board_name)
+
+    if board is None:
+        return None
+
+    return board.get("last_post_id")
 
 
 def save_last_post_id(board_name, post_id):
-    state = _load_state()
+    state = load_state()
 
-    state.setdefault("boards", {})
-    state["boards"].setdefault(board_name, {})
+    if board_name not in state["boards"]:
+        state["boards"][board_name] = {}
 
-    state["boards"][board_name]["last_post_id"] = post_id
+    state["boards"][board_name]["last_post_id"] = str(post_id)
 
-    _save_state(state)
+    save_state(state)
+
+    Logger.success(
+        f"{board_name} 게시판 마지막 게시글 ID 저장 완료 ({post_id})"
+    )

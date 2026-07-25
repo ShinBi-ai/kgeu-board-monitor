@@ -1,53 +1,71 @@
-from discord_webhook import DiscordWebhook, DiscordEmbed
+from datetime import datetime
+
+import requests
 
 from config import DISCORD_WEBHOOK_URL
+from boards.kgeu import BOARD
+from modules.logger import Logger
 
 
 def send_notification(post):
-    webhook = DiscordWebhook(url=DISCORD_WEBHOOK_URL)
+    if not DISCORD_WEBHOOK_URL:
+        Logger.error("DISCORD_WEBHOOK_URL이 설정되지 않았습니다.")
+        return False
 
-    embed = DiscordEmbed(
-        title=post["title"],
-        url=post["url"],
-        description="📢 **노조 게시판에 새 게시글이 등록되었습니다.**",
-        color="2F80ED",
-    )
+    embed = {
+        "title": post["title"],
+        "url": post["url"],
+        "color": 0x2ECC71,
+        "timestamp": datetime.utcnow().isoformat(),
+        "fields": [
+            {
+                "name": "게시판",
+                "value": BOARD["display_name"],
+                "inline": True,
+            },
+            {
+                "name": "글번호",
+                "value": post["number"],
+                "inline": True,
+            },
+            {
+                "name": "작성자",
+                "value": post["writer"],
+                "inline": True,
+            },
+            {
+                "name": "작성일",
+                "value": post["date"],
+                "inline": True,
+            },
+            {
+                "name": "조회수",
+                "value": post["views"],
+                "inline": True,
+            },
+        ],
+        "footer": {
+            "text": "KGEU Board Monitor",
+        },
+    }
 
-    embed.add_embed_field(
-        name="👤 작성자",
-        value=post["writer"],
-        inline=True,
-    )
+    payload = {
+        "content": "📢 **새 게시글이 등록되었습니다.**",
+        "embeds": [embed],
+    }
 
-    embed.add_embed_field(
-        name="📅 작성일",
-        value=post["date"],
-        inline=True,
-    )
+    try:
+        response = requests.post(
+            DISCORD_WEBHOOK_URL,
+            json=payload,
+            timeout=10,
+        )
 
-    embed.add_embed_field(
-        name="👀 조회수",
-        value=post["views"],
-        inline=True,
-    )
+        response.raise_for_status()
 
-    embed.add_embed_field(
-        name="🔢 게시번호",
-        value=post["number"],
-        inline=True,
-    )
+        Logger.success("Discord 알림 전송 완료")
+        return True
 
-    embed.set_footer(
-        text="KGEU Board Monitor"
-    )
-
-    embed.set_timestamp()
-
-    webhook.add_embed(embed)
-
-    response = webhook.execute()
-
-    if response.status_code == 200:
-        print("디스코드 전송 완료!")
-    else:
-        print(f"전송 실패 : {response.status_code}")
+    except requests.RequestException as e:
+        Logger.error(f"Discord 알림 전송 실패: {e}")
+        return False
